@@ -334,17 +334,44 @@ prebuilt_overlay {
 // Names are prefixed because extract-utils already owns the natural names for
 // the /vendor copies, so `stem` restores the exact on-device filename.
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// Shared libraries the two Moto apps and the imgtuner HAL load.
+// Module names are prefixed because extract-utils owns the natural names for the
+// /vendor copies; `stem` restores the exact on-device filename. The shared_libs
+// lists come from check_elf_file's output for each blob, with Motorola's own
+// inter-library deps pointed at the modules above (same output filename, same
+// partition) instead of the /vendor twins.
+// ---------------------------------------------------------------------------
 cc_prebuilt_library_shared {
     name: "motocamera_desktop_1_0",
     owner: "motorola",
     stem: "motorola.hardware.camera.desktop@1.0",
-    srcs: [
-        "proprietary/system_ext/lib64/motorola.hardware.camera.desktop@1.0.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/system_ext/lib64/motorola.hardware.camera.desktop@1.0.so",
+            ],
+            shared_libs: [
+                "android.hardware.graphics.bufferqueue@2.0",
+                "android.hardware.graphics.common@1.0",
+                "android.hardware.graphics.common@1.1",
+                "android.hardware.graphics.common@1.2",
+                "libc++",
+                "libc",
+                "libcutils",
+                "libdl",
+                "libhidlbase",
+                "liblog",
+                "libm",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "64",
     system_ext_specific: true,
 }
 
@@ -352,13 +379,34 @@ cc_prebuilt_library_shared {
     name: "motocamera_desktop_2_0",
     owner: "motorola",
     stem: "motorola.hardware.camera.desktop@2.0",
-    srcs: [
-        "proprietary/system_ext/lib64/motorola.hardware.camera.desktop@2.0.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/system_ext/lib64/motorola.hardware.camera.desktop@2.0.so",
+            ],
+            shared_libs: [
+                "motocamera_desktop_1_0",
+                "android.hardware.graphics.bufferqueue@1.0",
+                "android.hardware.graphics.bufferqueue@2.0",
+                "android.hardware.graphics.common@1.0",
+                "android.hardware.graphics.common@1.1",
+                "android.hardware.graphics.common@1.2",
+                "android.hardware.media@1.0",
+                "libc++",
+                "libc",
+                "libcutils",
+                "libdl",
+                "libhidlbase",
+                "liblog",
+                "libm",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "64",
     system_ext_specific: true,
 }
 
@@ -366,13 +414,35 @@ cc_prebuilt_library_shared {
     name: "motocamera_desktop_jni",
     owner: "motorola",
     stem: "libjni_helper.motocameradesktop",
-    srcs: [
-        "proprietary/system_ext/lib64/libjni_helper.motocameradesktop.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/system_ext/lib64/libjni_helper.motocameradesktop.so",
+            ],
+            shared_libs: [
+                "motocamera_desktop_1_0",
+                "motocamera_desktop_2_0",
+                "android.hardware.graphics.bufferqueue@1.0",
+                "libandroid",
+                "libandroid_runtime",
+                "libbinder",
+                "libc++",
+                "libc",
+                "libcutils",
+                "libdl",
+                "libgui",
+                "libhidlbase",
+                "liblog",
+                "libm",
+                "libui",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "64",
     system_ext_specific: true,
 }
 
@@ -380,13 +450,33 @@ cc_prebuilt_library_shared {
     name: "motocamera_imgtuner_jni",
     owner: "motorola",
     stem: "libimgTuner_jni.motoimagetuner",
-    srcs: [
-        "proprietary/system_ext/lib64/libimgTuner_jni.motoimagetuner.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/system_ext/lib64/libimgTuner_jni.motoimagetuner.so",
+            ],
+            shared_libs: [
+                "motocamera_imgtuner_aidl",
+                "libandroid",
+                "libbase",
+                "libbinder_ndk",
+                "libc++",
+                "libc",
+                "libcutils",
+                "libdl",
+                "libhidlbase",
+                "libhidltransport",
+                "libhwbinder",
+                "liblog",
+                "libm",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "64",
     system_ext_specific: true,
 }
 
@@ -394,26 +484,51 @@ cc_prebuilt_library_shared {
     name: "motocamera_imgtuner_aidl",
     owner: "motorola",
     stem: "motorola.hardware.camera.imgtuner.aidl-V1-ndk",
-    srcs: [
-        "proprietary/system/lib64/motorola.hardware.camera.imgtuner.aidl-V1-ndk.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/system/lib64/motorola.hardware.camera.imgtuner.aidl-V1-ndk.so",
+            ],
+            shared_libs: [
+                "libbinder_ndk",
+                "libc++",
+                "libc",
+                "libdl",
+                "libm",
+            ],
+        },
+    },
+    compile_multilib: "64",
 }
 
 cc_prebuilt_library_shared {
     name: "motocamera_imgtuner_1_0",
     owner: "motorola",
     stem: "motorola.hardware.camera.imgtuner@1.0",
-    srcs: [
-        "proprietary/vendor/lib64/motorola.hardware.camera.imgtuner@1.0.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/vendor/lib64/motorola.hardware.camera.imgtuner@1.0.so",
+            ],
+            shared_libs: [
+                "libc++",
+                "libc",
+                "libcutils",
+                "libdl",
+                "libhidlbase",
+                "liblog",
+                "libm",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "64",
     vendor: true,
 }
 
@@ -421,13 +536,24 @@ cc_prebuilt_library_shared {
     name: "motocamera_imgtuner_aidl_platform",
     owner: "motorola",
     stem: "motorola.hardware.camera.imgtuner.aidl-V1-ndk_platform",
-    srcs: [
-        "proprietary/vendor/lib64/motorola.hardware.camera.imgtuner.aidl-V1-ndk_platform.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/vendor/lib64/motorola.hardware.camera.imgtuner.aidl-V1-ndk_platform.so",
+            ],
+            shared_libs: [
+                "libbinder_ndk",
+                "libc++",
+                "libc",
+                "libdl",
+                "libm",
+            ],
+        },
+    },
+    compile_multilib: "64",
     vendor: true,
 }
 
@@ -435,13 +561,29 @@ cc_prebuilt_library_shared {
     name: "motocamera_imgtuner_impl",
     owner: "motorola",
     stem: "motorola.hardware.camera.imgtuner@1.0-impl",
-    srcs: [
-        "proprietary/vendor/lib64/hw/motorola.hardware.camera.imgtuner@1.0-impl.so",
-    ],
-    compile_multilib: "64",
     strip: {
         none: true,
     },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/vendor/lib64/hw/motorola.hardware.camera.imgtuner@1.0-impl.so",
+            ],
+            shared_libs: [
+                "motocamera_imgtuner_1_0",
+                "libbinder",
+                "libc++",
+                "libc",
+                "libdl",
+                "libhidlbase",
+                "libhidlmemory",
+                "liblog",
+                "libm",
+                "libutils",
+            ],
+        },
+    },
+    compile_multilib: "64",
     vendor: true,
     relative_install_path: "hw",
 }
