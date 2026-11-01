@@ -23,7 +23,6 @@ allow priv_app camera_device:chr_file { read write open getattr ioctl };
 allow priv_app video_device:chr_file { read write open getattr ioctl };
 
 # --- binder to the camera service / servicemanager ---
+# (property reads go through servicemanager -> property_service binder,
+#  covered by the call transfer rule above)
 allow priv_app servicemanager:binder { call transfer };
-
-# --- read camera-related system properties ---
-allow priv_app property_service:property_service { get };
