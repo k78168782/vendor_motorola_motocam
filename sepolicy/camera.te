@@ -1,0 +1,29 @@
+# Motorola camera app (MotCamera4 / com.motorola.camera3) SELinux additions.
+#
+# The app installs to /product/priv-app and runs in the `priv_app` domain on
+# AOSP.  The vendor camera HAL side (camera.qcom.so + sensor tuning blobs) is
+# provided by proprietary_vendor_motorola_fogos and its own sepolicy; this file
+# only adds the app-side rules the stock Moto app needs on top of a working
+# camera HAL.
+#
+# Integration:
+#   In device/motorola/fogos/BoardConfig.mk (or common):
+#       BOARD_SEPOLICY_DIRS += vendor/motorola/motocamera/sepolicy
+#
+# After the first build, check logcat for avc denials from the camera app and
+# refine with `audit2allow -R`:
+#     adb logcat | grep avc: | audit2allow -R -m motcam_denials
+#
+# NOTE: These rules are a starting point.  Stock Motorola camera may use
+# Motorola-specific binder interfaces (imgtuner, proprietary camera service)
+# that only show up as denials at runtime.  Verify on the device.
+
+# --- camera hardware device nodes ---
+allow priv_app camera_device:chr_file { read write open getattr ioctl };
+allow priv_app video_device:chr_file { read write open getattr ioctl };
+
+# --- binder to the camera service / servicemanager ---
+allow priv_app servicemanager:binder { call transfer };
+
+# --- read camera-related system properties ---
+allow priv_app property_service:property_service { get };

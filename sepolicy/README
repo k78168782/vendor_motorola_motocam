@@ -1,0 +1,14 @@
+SELinux notes for the Motorola camera port (fogos / sm6375, Android 16)
+
+1. Add this directory to the device tree BoardConfig:
+       BOARD_SEPOLICY_DIRS += vendor/motorola/motocamera/sepolicy
+
+2. Build, boot, launch MotCamera4, then collect denials:
+       adb logcat -d | grep avc: | audit2allow -R -m motcam
+
+3. Iterate camera.te until MotCamera4 can open all camera sensors and the
+   imgtuner service (if MOTOCAMERA_IMAGERTUNING=true) starts without denials.
+
+4. The stock MotCamera4 app declares <uses-library android:name="com.motorola.motosignature"
+   android:required="true"/>, which this port provides via
+   com.motorola.motosignature (dex_import) + com.motorola.motosignature.jar.

@@ -6,7 +6,7 @@
 
 // ---------------------------------------------------------------------------
 // Main camera app  (com.motorola.camera3, MotCamera4.apk, v9.1.30.65)
-//   - stored in Git LFS: run `git lfs pull` or this build ships a 134 byte file
+//   - real stock APK committed directly (recovered from Git LFS, ~227 MB)
 // ---------------------------------------------------------------------------
 android_app_import {
     name: "MotCamera4",
@@ -23,28 +23,6 @@ android_app_import {
         "Aperture",
         "Camera2",
     ],
-    required: [
-        "MotCamera4.odex",
-        "MotCamera4.vdex",
-    ],
-}
-
-prebuilt_etc {
-    name: "MotCamera4.odex",
-    owner: "motorola",
-    src: "proprietary/product/priv-app/MotCamera4/oat/arm64/MotCamera4.odex",
-    sub_dir: "priv-app/MotCamera4/oat/arm64",
-    product_specific: true,
-    filename: "MotCamera4.odex",
-}
-
-prebuilt_etc {
-    name: "MotCamera4.vdex",
-    owner: "motorola",
-    src: "proprietary/product/priv-app/MotCamera4/oat/arm64/MotCamera4.vdex",
-    sub_dir: "priv-app/MotCamera4/oat/arm64",
-    product_specific: true,
-    filename: "MotCamera4.vdex",
 }
 
 // ---------------------------------------------------------------------------
@@ -61,28 +39,6 @@ android_app_import {
         enabled: false,
     },
     product_specific: true,
-    required: [
-        "MotCamera3AI.odex",
-        "MotCamera3AI.vdex",
-    ],
-}
-
-prebuilt_etc {
-    name: "MotCamera3AI.odex",
-    owner: "motorola",
-    src: "proprietary/product/app/MotCamera3AI/oat/arm64/MotCamera3AI.odex",
-    sub_dir: "app/MotCamera3AI/oat/arm64",
-    product_specific: true,
-    filename: "MotCamera3AI.odex",
-}
-
-prebuilt_etc {
-    name: "MotCamera3AI.vdex",
-    owner: "motorola",
-    src: "proprietary/product/app/MotCamera3AI/oat/arm64/MotCamera3AI.vdex",
-    sub_dir: "app/MotCamera3AI/oat/arm64",
-    product_specific: true,
-    filename: "MotCamera3AI.vdex",
 }
 
 // ---------------------------------------------------------------------------
@@ -143,28 +99,6 @@ android_app_import {
     },
     privileged: true,
     system_ext_specific: true,
-    required: [
-        "MotorolaSettingsProvider.odex",
-        "MotorolaSettingsProvider.vdex",
-    ],
-}
-
-prebuilt_etc {
-    name: "MotorolaSettingsProvider.odex",
-    owner: "motorola",
-    src: "proprietary/system_ext/priv-app/MotorolaSettingsProvider/oat/arm64/MotorolaSettingsProvider.odex",
-    sub_dir: "priv-app/MotorolaSettingsProvider/oat/arm64",
-    system_ext_specific: true,
-    filename: "MotorolaSettingsProvider.odex",
-}
-
-prebuilt_etc {
-    name: "MotorolaSettingsProvider.vdex",
-    owner: "motorola",
-    src: "proprietary/system_ext/priv-app/MotorolaSettingsProvider/oat/arm64/MotorolaSettingsProvider.vdex",
-    sub_dir: "priv-app/MotorolaSettingsProvider/oat/arm64",
-    system_ext_specific: true,
-    filename: "MotorolaSettingsProvider.vdex",
 }
 
 // ---------------------------------------------------------------------------
