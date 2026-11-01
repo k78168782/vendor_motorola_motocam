@@ -19,8 +19,10 @@
 # that only show up as denials at runtime.  Verify on the device.
 
 # --- camera hardware device nodes ---
-allow priv_app camera_device:chr_file { read write open getattr ioctl };
-allow priv_app video_device:chr_file { read write open getattr ioctl };
+# Neverallow in system/sepolicy/private/app.te blocks appdomain from
+# read/write on camera_device/video_device chr_files.  The app talks to the
+# camera HAL/service via binder (covered by the servicemanager rule below)
+# instead of opening device nodes directly.
 
 # --- binder to the camera service / servicemanager ---
 # (property reads go through servicemanager -> property_service binder,
