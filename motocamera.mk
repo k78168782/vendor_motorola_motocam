@@ -137,3 +137,25 @@ PRODUCT_COPY_FILES += \
     $(MOTOCAMERA_PROPRIETARY)/vendor/etc/init/motorola.hardware.camera.imgtuner@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/motorola.hardware.camera.imgtuner@1.0-service.rc
 
 endif
+
+# ---------------------------------------------------------------------------
+# Stock Motorola camera properties.
+#
+# These ship in the stock build.prop files, which a device tree regenerates, so
+# they never came across with the blobs. Without them the Moto app cannot reach
+# the auxiliary cameras, and the CFA (high-resolution / remosaic) capture path is
+# not permitted for it at all - which is a bright-light-only code path.
+#
+# camera.disable_zsl_mode and persist.vendor.camera.physical.num are already set
+# in the device tree (sm6375-common/vendor.prop, fogos/vendor.prop), so they are
+# deliberately not repeated here.
+# ---------------------------------------------------------------------------
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.camera.expose.aux=1 \
+    persist.vendor.camera.privapp.list=org.codeaurora.snapcam \
+    vendor.camera.aux.packagelist=com.motorola.camera3,com.motorola.motocit \
+    vendor.camera.aux.packagelist2=com.motorola.ccc,com.android.settings \
+    ro.vendor.camera.noiseVibratortime=180
+
+PRODUCT_SYSTEM_PROPERTIES += \
+    ro.camera.cfa.packagelist=com.motorola.coresettingsext,com.motorola.camera2,com.motorola.camera3,com.motorola.actions
